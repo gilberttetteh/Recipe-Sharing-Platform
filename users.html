@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - Flavorful Feeds</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        
+        body {
+            background: url('users.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        
+        header {
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            max-width: 1000px;
+            margin: 2rem auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f4a261;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        button {
+            background-color: #f4a261;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: #e76f51;
+        }
+
+        /* User Details and Form Styling */
+        .section {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h2, h3 {
+            color: #2a9d8f;
+        }
+
+        label {
+            font-weight: 600;
+        }
+
+        input {
+            padding: 0.5rem;
+            width: 100%;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Flavorful Feeds User Management</h1>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="users.html">User Management</a></li>
+                <li><a href="recipes.html">Recipe Management</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main role="main">
+        <!-- User Management Section -->
+        <section id="user-management" class="section">
+            <h2>User Management</h2>
+            <table id="user-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Gilbert Tetteh</td>
+                        <td>gilberttetteh2004@icloud.com</td>
+                        <td>
+                            <button onclick="viewUser(1)">View</button>
+                            <button onclick="editUser(1)">Edit</button>
+                            <button onclick="deleteUser(1)">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Sedem Agudetse</td>
+                        <td>ablasedem@yahoo.com</td>
+                        <td>
+                            <button onclick="viewUser(2)">View</button>
+                            <button onclick="editUser(2)">Edit</button>
+                            <button onclick="deleteUser(2)">Delete</button>
+                        </td>
+                    </tr>
+                  
+                </tbody>
+            </table>
+        </section>
+
+        <!-- User Details Section -->
+        <section id="user-details" class="section" style="display: none;">
+            <h3>User Details</h3>
+            <div id="user-info"></div>
+        </section>
+
+        <!-- User Edit Form -->
+        <section id="user-form" class="section" style="display: none;">
+            <h3>Edit User</h3>
+            <form id="editUserForm">
+                <div class="form-group">
+                    <label for="editName">Name:</label>
+                    <input type="text" id="editName" name="editName" required>
+                    <span class="error" id="editNameError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="editEmail">Email:</label>
+                    <input type="email" id="editEmail" name="editEmail" required>
+                    <span class="error" id="editEmailError"></span>
+                </div>
+                <button type="submit">Save Changes</button>
+                <button type="button" onclick="cancelEdit()">Cancel</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        function viewUser(userId) {
+            const userDetails = {
+                id: userId,
+                name: 'Gilbert Tetteh',
+                email: 'gilberttetteh2004@icloud.com',
+            };
+            const userInfo = document.getElementById('user-info');
+            userInfo.innerHTML = `
+                <p><strong>ID:</strong> ${userDetails.id}</p>
+                <p><strong>Name:</strong> ${userDetails.name}</p>
+                <p><strong>Email:</strong> ${userDetails.email}</p>
+            `;
+            document.getElementById('user-details').style.display = 'block';
+        }
+
+        function editUser(userId) {
+            const userDetails = {
+                id: userId,
+                name: 'Gilbert Tetteh',
+                email: 'gilberttetteh2004@icloud.com',
+            };
+            document.getElementById('editName').value = userDetails.name;
+            document.getElementById('editEmail').value = userDetails.email;
+            document.getElementById('user-form').style.display = 'block';
+        }
+
+        function deleteUser(userId) {
+            if (confirm(`Are you sure you want to delete user with ID ${userId}?`)) {
+                alert(`User with ID ${userId} has been deleted.`);
+            }
+        }
+
+        function cancelEdit() {
+            document.getElementById('user-form').style.display = 'none';
+        }
+
+        document.getElementById('editUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.querySelectorAll('.error').forEach(el => el.textContent = '');
+
+            let name = document.getElementById('editName').value;
+            let email = document.getElementById('editEmail').value;
+            let isValid = true;
+
+            if (!name) {
+                document.getElementById('editNameError').textContent = 'Name is required.';
+                isValid = false;
+            }
+
+            if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+                document.getElementById('editEmailError').textContent = 'Please enter a valid email address.';
+                isValid = false;
+            }
+
+            if (isValid) {
+                alert('User updated successfully!'); 
+                document.getElementById('user-form').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
+
