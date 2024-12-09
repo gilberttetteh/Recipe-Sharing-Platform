@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flavorful Feeds Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+        /* General Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: #1e1e1e;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 1.8rem;
+            color: #4caf50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #4caf50;
+            color: #000000;
+        }
+
+        .sidebar i {
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 270px;
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .main-content h1 {
+            font-size: 2rem;
+            color: #4caf50;
+            margin-bottom: 20px;
+        }
+
+        .analytics-section {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .analytics-card {
+            background-color: #1e1e1e;
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .analytics-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .analytics-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #4caf50;
+        }
+
+        .analytics-card p {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        /* Chart Containers */
+        .chart-container {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .chart-container h3 {
+            margin-bottom: 20px;
+            color: #4caf50;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: 300px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        table th {
+            background-color: #4caf50;
+            color: #000;
+            font-weight: bold;
+        }
+
+        table tr:hover {
+            background-color: #333;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .analytics-section {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 200px;
+            }
+
+            .main-content {
+                margin-left: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <a href="dashboard.html"><i class="fas fa-chart-pie"></i> Analytics</a>
+        <a href="users.html"><i class="fas fa-users"></i> User Management</a>
+        <a href="recipes.html"><i class="fas fa-utensils"></i> Recipe Management</a>
+    </div>
+
+    <div class="main-content">
+        <h1>Analytics Overview</h1>
+        <div class="analytics-section">
+            <div class="analytics-card">
+                <h3>Total Users</h3>
+                <p id="total-users"></p>
+            </div>
+            <div class="analytics-card">
+                <h3>Total Recipes</h3>
+                <p id="total-recipes"></p>
+            </div>
+            <div class="analytics-card">
+                <h3>Pending Approvals</h3>
+                <p id="pending-approvals"></p>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3>User Registration Trends</h3>
+            <canvas id="registrationTrendsChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h3>Recipe Submission Trends</h3>
+            <canvas id="recipeTrendsChart"></canvas>
+        </div>
+
+        <h1>User Activity</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Registration Date</th>
+                </tr>
+            </thead>
+            <tbody id="user-table">
+                <tr><td colspan="4"></td></tr>
+            </tbody>
+        </table>
+
+        <h1>Recent Recipes</h1>
+        <ul id="recent-recipes">
+        </ul>
+    </div>
+
+    <!-- AJAX Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    fetch('../view/dashboard.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const role = data.role;
+                if (role === 1) {
+                    document.getElementById('main-content').innerHTML = `
+                        <h1>Welcome, Limited Access User</h1>
+                        <p>${data.data.info}</p>
+                        <p>${data.data.instructions}</p>
+                        <div>
+                            <h3>Analytics:</h3>
+                            <p>Total Users: ${data.data.analytics.total_users}</p>
+                            <p>Total Recipes: ${data.data.analytics.total_recipes}</p>
+                            <p>Pending Approvals: ${data.data.analytics.pending_approvals}</p>
+                        </div>
+                    `;
+                // Check user role and populate the dashboard
+
+            }else if (data.role === 'Super Admin') {
+                    document.getElementById('total-users').textContent = data.data.total_users;
+                    document.getElementById('total-recipes').textContent = data.data.total_recipes;
+                    document.getElementById('pending-approvals').textContent = data.data.pending_approvals;
+
+                    // Populate user table
+                    const userTable = document.getElementById('user-table');
+                    userTable.innerHTML = '';
+                    data.data.users.forEach(user => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${user.full_name}</td>
+                            <td>${user.email}</td>
+                            <td>${user.role}</td>
+                            <td>${user.created_at}</td>
+                            <td><button onclick="deleteUser(${user.user_id})">Delete</button></td>
+                        `;
+                        userTable.appendChild(row);
+                    });
+
+                    // Populate recent users table
+                    const usersTable = document.getElementById('recent-users');
+                        usersTable.innerHTML = '';
+                        data.data.recent_users.forEach(user => {
+                            const row = `<tr>
+                                <td>${user.full_name}</td>
+                                <td>${user.email}</td>
+                                <td>${user.role}</td>
+                                <td>${user.created_at}</td>
+                            </tr>`;
+                            usersTable.innerHTML += row;
+                        });
+
+                    // Display registration trends chart
+                    if (data.data.registration_trends) {
+                        const ctx1 = document.getElementById('registrationTrendsChart').getContext('2d');
+                        const labels1 = data.data.registration_trends.map(item => item.date);
+                        const values1 = data.data.registration_trends.map(item => item.count);
+                        new Chart(ctx1, {
+                            type: 'line',
+                            data: {
+                                labels: labels1,
+                                datasets: [{
+                                    label: 'User Registrations',
+                                    data: values1,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                }]
+                            }
+                        });
+                    }
+
+                    // Display recipe submission trends chart
+                    if (data.data.recipe_trends) {
+                        const ctx2 = document.getElementById('recipeTrendsChart').getContext('2d');
+                        const labels2 = data.data.recipe_trends.map(item => item.date);
+                        const values2 = data.data.recipe_trends.map(item => item.count);
+                        new Chart(ctx2, {
+                            type: 'bar',
+                            data: {
+                                labels: labels2,
+                                datasets: [{
+                                    label: 'Recipe Submissions',
+                                    data: values2,
+                                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                                    borderColor: 'rgba(153, 102, 255, 1)',
+                                    borderWidth: 1
+                                }]
+                            }
+                        });
+                    }
+
+                    // Display user approval status distribution chart
+                    if (data.data.approval_status) {
+                        const ctx3 = document.getElementById('approvalStatusChart').getContext('2d');
+                        const labels3 = data.data.approval_status.map(item => item.status);
+                        const values3 = data.data.approval_status.map(item => item.count);
+                        new Chart(ctx3, {
+                            type: 'pie',
+                            data: {
+                                labels: labels3,
+                                datasets: [{
+                                    label: 'Approval Status',
+                                    data: values3,
+                                    backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)'],
+                                    borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)'],
+                                    borderWidth: 1
+                                }]
+                            }
+                        });
+                    }
+                } else if (data.role === 'Regular Admin') {
+                    document.getElementById('personal-analytics').style.display = 'block';
+                    document.getElementById('my-recipes-count').textContent = data.data.my_recipes;
+
+                    const recentMyRecipes = document.getElementById('recent-my-recipes');
+                    recentMyRecipes.innerHTML = '';
+                    data.data.recent_my_recipes.forEach(recipe => {
+                        const li = document.createElement('li');
+                        li.textContent = `${recipe.title} (Created on: ${recipe.created_at})`;
+                        recentMyRecipes.appendChild(li);
+                    });
+
+                    const myRecipeList = document.getElementById('my-recipe-list');
+                    myRecipeList.innerHTML = '';
+                    data.data.recipe_list.forEach(recipe => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${recipe.title}</td>
+                            <td>${recipe.created_at}</td>
+                            <td>${recipe.status}</td>
+                        `;
+                        myRecipeList.appendChild(row);
+                    });
+
+                    // Display category distribution chart
+                    if (data.data.category_distribution) {
+                        document.getElementById('categoryDistributionSection').style.display = 'block';
+                        const ctx4 = document.getElementById('categoryDistributionChart').getContext('2d');
+                        const labels4 = data.data.category_distribution.map(item => item.category);
+                        const values4 = data.data.category_distribution.map(item => item.count);
+                        new Chart(ctx4, {
+                            type: 'doughnut',
+                            data: {
+                                labels: labels4,
+                                datasets: [{
+                                    label: 'Recipe Categories',
+                                    data: values4,
+                                    backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(255, 205, 86, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+                                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 205, 86, 1)', 'rgba(54, 162, 235, 1)'],
+                                    borderWidth: 1
+                                }]
+                            }
+                        });
+                    }
+                }
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
+
+// User action functions
+function deleteUser(userId) {
+    if (confirm(`Are you sure you want to delete user with ID ${userId}?`)) {
+        fetch('./view/dashboard.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ action: 'delete_user', user_id: userId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            if (data.success) {
+                location.reload(); 
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+}
+
+function approveUser(userId) {
+    fetch('./view/dashboard.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ action: 'approve_user', user_id: userId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        if (data.success) {
+            location.reload(); // Refresh the page to reflect changes
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>
+</body>
+</html>

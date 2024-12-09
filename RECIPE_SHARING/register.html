@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Community - Sign Up</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23d4a373' fill-opacity='0.2'%3E%3Cpath d='M50 0l50 50-50 50L0 50z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .container {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            transition: all 0.3s ease;
+        }
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        h2 {
+            font-size: 1.2rem;
+            color: #4CAF50;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 1rem;
+            font-weight: 300;
+        }
+        input {
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+        button {
+            margin-top: 1.5rem;
+            padding: 0.75rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .switch {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        .switch a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .switch a:hover {
+            color: #45a049;
+            text-decoration: underline;
+        }
+        .icon {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 2rem;
+            color: #4CAF50;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .social-login {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .social-icon {
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .social-icon:hover {
+            transform: translateY(-3px);
+        }
+        .google {
+            color: #DB4437;
+        }
+        .apple {
+            color: #000000;
+        }
+        .facebook {
+            color: #4267B2;
+        }
+        .welcome-message {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-style: italic;
+            color: #666;
+        }
+        .background-info {
+            font-size: 0.9rem;
+            text-align: justify;
+            margin-bottom: 1rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <i class="fas fa-book icon"></i>
+        <h1>Join Our Recipe Community</h1>
+        <div class="welcome-message">
+            Welcome to the tastiest corner of the internet!
+        </div>
+        <div class="background-info">
+            <p><strong>Our History:</strong> Founded in 2010, Recipe Community has grown from a small group of food enthusiasts to a global platform with over 1 million users sharing their culinary creations.</p>
+            <p><strong>Our Mission:</strong> To connect food lovers worldwide, enabling them to share, discover, and create delicious recipes while fostering a supportive community.</p>
+        </div>
+        <h2>Sign Up Now</h2>
+        <form action = "./view/register.php" method="POST">
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="fname" required>
+            <span class="error" id="fnameError"></span>
+            
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="lname" required>
+            <span class="error" id="lnameError"></span>
+            
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <span class="error" id="emailError"></span>
+            
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <span class="error" id="passwordError"></span>
+            
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+            <span class="error" id="confirmPasswordError"></span>
+            
+            <button type="submit">Sign Up</button>
+    
+        
+        <div class="social-login">
+            <a href="#" class="social-icon google"><i class="fab fa-google"></i></a>
+            <a href="#" class="social-icon apple"><i class="fab fa-apple"></i></a>
+            <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+        </div>
+        
+        <div class="switch">
+            Already have an account? <a href="login.html">Login</a>
+        </div>
+    </form>
+    </div>
+
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            // Reset error messages
+            document.querySelectorAll('.error').forEach(el => el.textContent = '');
+
+            let formData = new FormData(this);
+            let isValid = true;
+
+            // Client-side validation (basic checks)
+            let password = document.getElementById('password').value;
+            let confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (confirmPassword !== password) {
+                document.getElementById('confirmPasswordError').textContent = 'Passwords do not match.';
+                isValid = false;
+            }
+
+            // Proceed with AJAX if validation passes
+            if (isValid) {
+                fetch('./view/register.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        window.location.href = 'login.html'; // Redirect to the login page on success
+                    } else {
+                        alert('Registration failed: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+            }
+        });
+
+
+    </script>
+</body>
+</html>

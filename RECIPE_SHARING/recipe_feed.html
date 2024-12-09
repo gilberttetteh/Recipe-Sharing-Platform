@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/recipe_feed.css">
+    <title>Green Recipe Feed</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #45a049;
+    --text-color: #333;
+    --background-color: #f9f9f9;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1.5em;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+h1 {
+    margin: 0;
+    font-size: 2.5em;
+    letter-spacing: 1px;
+}
+.search-container {
+    text-align: center;
+    padding: 30px 20px;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.search-container input {
+    padding: 12px;
+    width: 80%;
+    max-width: 500px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 25px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+.search-container input:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(69, 160, 73, 0.5);
+}
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 40px;
+}
+.recipe-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+.recipe-card img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+.recipe-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+.recipe-card p {
+    color: #555;
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+.rating {
+    color: #FFA500;
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+.tags {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+.tag {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    margin: 5px;
+}
+    </style>
+
+</head>
+<body>
+    <header>
+        <h1>Green Recipe Feed</h1>
+    </header>
+    <div class="search-container">
+        <input type="text" placeholder="Search for healthy recipes..." />
+    </div>
+    <div class="recipe-grid">
+        <div class="recipe-card">
+            <img src="./assets/greensmoothie.jpg" alt="Green Smoothie Bowl">
+            <h3>Green Smoothie Bowl</h3>
+            <p>Nutrient-packed smoothie bowl with spinach, banana, and chia seeds.</p>
+            <div class="rating">★★★★☆</div>
+            <div class="tags">
+                <span class="tag">Healthy</span>
+                <span class="tag">Vegan</span>
+            </div>
+        </div>
+        <div class="recipe-card">
+            <img src="./assets/avocado.jpg" alt="Avocado Salad">
+            <h3>Avocado Salad</h3>
+            <p>Fresh salad with creamy avocado, cherry tomatoes, and cucumber.</p>
+            <div class="rating">★★★★★</div>
+            <div class="tags">
+                <span class="tag">Salad</span>
+                <span class="tag">Keto</span>
+            </div>
+        </div>
+        <div class="recipe-card">
+            <img src="./assets/broccolifry.jpg" alt="Broccoli Stir-Fry">
+            <h3>Broccoli Stir-Fry</h3>
+            <p>Quick and easy vegetable stir-fry with crispy broccoli and garlic.</p>
+            <div class="rating">★★★★☆</div>
+            <div class="tags">
+                <span class="tag">Vegetarian</span>
+                <span class="tag">Quick</span>
+            </div>
+        </div>
+        <div class="recipe-card">
+            <img src="./assets/quinoasalad.jpg" alt="Quinoa Salad">
+            <h3>Quinoa Salad</h3>
+            <p>A refreshing mix of quinoa, black beans, corn, and cilantro with a zesty lime dressing.</p>
+            <div class="rating">★★★☆☆</div>
+            <div class="tags">
+                <span class="tag">Gluten-Free</span>
+                <span class="tag">Healthy</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll('.recipe-card').forEach(card => {
+            card.addEventListener('click', () => {
+                alert('Recipe details coming soon!');
+            });
+        });
+    </script>
+</body>
+</html>
