@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #45a049;
+    --text-color: #333;
+    --background-color: #f9f9f9;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1.5em;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+h1 {
+    margin: 0;
+    font-size: 2.5em;
+    letter-spacing: 1px;
+}
+.search-container {
+    text-align: center;
+    padding: 30px 20px;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.search-container input {
+    padding: 12px;
+    width: 80%;
+    max-width: 500px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 25px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+.search-container input:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(69, 160, 73, 0.5);
+}
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 40px;
+}
+.recipe-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+.recipe-card img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+.recipe-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+.recipe-card p {
+    color: #555;
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+.rating {
+    color: #FFA500;
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+.tags {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+.tag {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    margin: 5px;
+}
